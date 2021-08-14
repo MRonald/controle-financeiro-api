@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -13,17 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return User::all();
     }
 
     /**
@@ -34,7 +25,11 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (User::create($request->all())) {
+            return response()->json(['status' => 201, 'message' => 'Created successfully'], 201);
+        } else {
+            return response()->json(['status' => 500, 'message' => 'Internal Server Error'], 500);
+        }
     }
 
     /**
@@ -43,20 +38,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return User::findOrFail($id);
     }
 
     /**
@@ -66,9 +50,19 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->username = $request->username;
+        $user->password = $request->password;
+
+        if ($user->save()) {
+            return response()->json(['status' => 202, 'message' => 'Updated successfully'], 202);
+        } else {
+            return response()->json(['status' => 500, 'message' => 'Internal Server Error'], 500);
+        }
     }
 
     /**
@@ -77,8 +71,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        //
+        $user = User::findOrFail($id);
+        if ($user->delete()) {
+            return response()->json(['status' => 202, 'message' => 'Deleted successfully'], 202);
+        } else {
+            return response()->json(['status' => 500, 'message' => 'Internal Server Error'], 500);
+        }
     }
 }
