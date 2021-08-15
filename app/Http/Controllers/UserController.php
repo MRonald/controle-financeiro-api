@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -79,5 +80,10 @@ class UserController extends Controller
         } else {
             return response()->json(['status' => 500, 'message' => 'Internal Server Error'], 500);
         }
+    }
+
+    public function userTransactions(int $userId)
+    {
+        return Transaction::query()->where('user_id', '=', $userId)->get(['id', 'type', 'product', 'value', 'created_at']);
     }
 }
