@@ -117,7 +117,6 @@ Faça um PUT para o seguinte endpoint:
 Modelo de body:
 ```
 {
-    "user_id": 2,
     "type": "venda",
     "product": "Pastel",
     "value": 3.25
@@ -133,6 +132,7 @@ Modelo de resposta (atualizado com sucesso):
 ```
 
 *No caso de uma atualização é necessário passar o ID da transação que vai ser modificada pela URL. Também é necessário repetir os dados que não serão alterados.
+*Depois de cadastrada uma transação não é possível alterar a qual usuário ela pertence, portanto, no body de atualização, não passamos o user_id.
 
 ### Apagando transações
 
