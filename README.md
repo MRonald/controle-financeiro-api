@@ -41,8 +41,8 @@ Modelo de body:
 Modelo de resposta (criado com sucesso):
 ```
 {
-  "status": 201,
-  "message": "Created successfully"
+    "status": 201,
+    "message": "Created successfully"
 }
 ```
 
@@ -64,8 +64,8 @@ Modelo de body:
 Modelo de resposta (atualizado com sucesso):
 ```
 {
-  "status": 202,
-  "message": "Updated successfully"
+    "status": 202,
+    "message": "Updated successfully"
 }
 ```
 
@@ -79,8 +79,8 @@ Faça um DELETE para o endpoint:
 Modelo de resposta (deletado com sucesso):
 ```
 {
-  "status": 202,
-  "message": "Deleted successfully"
+    "status": 202,
+    "message": "Deleted successfully"
 }
 ```
 
@@ -104,8 +104,8 @@ Modelo de body:
 Modelo de resposta (criado com sucesso):
 ```
 {
-  "status": 201,
-  "message": "Created successfully"
+    "status": 201,
+    "message": "Created successfully"
 }
 ```
 
@@ -126,12 +126,13 @@ Modelo de body:
 Modelo de resposta (atualizado com sucesso):
 ```
 {
-  "status": 202,
-  "message": "Updated successfully"
+    "status": 202,
+    "message": "Updated successfully"
 }
 ```
 
 *No caso de uma atualização é necessário passar o ID da transação que vai ser modificada pela URL. Também é necessário repetir os dados que não serão alterados.
+
 *Depois de cadastrada uma transação não é possível alterar a qual usuário ela pertence, portanto, no body de atualização, não passamos o user_id.
 
 ### Apagando transações
@@ -142,8 +143,8 @@ Faça um DELETE para o endpoint:
 Modelo de resposta (deletado com sucesso):
 ```
 {
-  "status": 202,
-  "message": "Deleted successfully"
+    "status": 202,
+    "message": "Deleted successfully"
 }
 ```
 
