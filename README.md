@@ -5,161 +5,146 @@ Uma API feita com PHP e Laravel para gerenciamento de dados de controle financei
 ## Endpoints da API
 
 URL base para busca dos usuários:
->[https://manager-persons-api.herokuapp.com/api/v1/persons](https://manager-persons-api.herokuapp.com/api/v1/persons)
+>[https://mr-finance-control-api.herokuapp.com/api/v1/users](https://mr-finance-control-api.herokuapp.com/api/v1/users)
 
-Busca de pessoas por ID:
->[https://manager-persons-api.herokuapp.com/api/v1/persons/1](https://manager-persons-api.herokuapp.com/api/v1/persons/1)
+Busca de usuários por ID:
+>[https://mr-finance-control-api.herokuapp.com/api/v1/users/1](https://mr-finance-control-api.herokuapp.com/api/v1/users/1)
 
-URL base para busca de endereços cadastrados (retorna a primeira página dos resultados):
->[https://manager-persons-api.herokuapp.com/api/v1/addresses](https://manager-persons-api.herokuapp.com/api/v1/addresses)
+URL para lista de todas as transações cadastradas:
+>[https://mr-finance-control-api.herokuapp.com/api/v1/transactions](https://mr-finance-control-api.herokuapp.com/api/v1/transactions)
 
-Busca de endereços por ID:
->[https://manager-persons-api.herokuapp.com/api/v1/addresses/1](https://manager-persons-api.herokuapp.com/api/v1/addresses/1)
+Busca de transações por ID:
+>[https://mr-finance-control-api.herokuapp.com/api/v1/transactions/1](https://mr-finance-control-api.herokuapp.com/api/v1/transactions/1)
 
-Paginação da API:
->[https://manager-persons-api.herokuapp.com/api/v1/persons?page=0&size=5](https://manager-persons-api.herokuapp.com/api/v1/persons?page=0&size=5)
+Busca das transações de um usuário específico:
+>[https://mr-finance-control-api.herokuapp.com/api/v1/users/2/transactions](https://mr-finance-control-api.herokuapp.com/api/v1/users/2/transactions)
 
-Essa busca trás a primeira página dos resultados separando de 5 em 5.
-
-Paginação ordenada:
->[https://manager-persons-api.herokuapp.com/api/v1/persons?page=0&size=5&sort=name,asc](https://manager-persons-api.herokuapp.com/api/v1/persons?page=0&size=5&sort=name,asc)
-
-Além de paginar, ordena a busca por nome na ordem ascendente.
+Essa busca trás todas as transações cadastradas para o usuário com id 2.
 
 ## Manipulação de dados
 
-### Adicionando pessoas
+### Adicionando usuários
 
 Faça um POST para o seguinte endpoint:
->[https://manager-persons-api.herokuapp.com/api/v1/persons](https://manager-persons-api.herokuapp.com/api/v1/persons)
+>[https://mr-finance-control-api.herokuapp.com/api/v1/users](https://mr-finance-control-api.herokuapp.com/api/v1/users)
 
-Modelo de entrada:
+Modelo de body:
 ```
 {
-    "name": "Michael Ronald",
-    "birthDate": "2000-11-11",
-    "weight": 90.0,
-    "height": 1.85,
-    "address": {
-        "street": "Fazenda Estreito",
-        "district": "Zona Rural",
-        "city": "Baia Formosa",
-        "houseNumber": 17,
-        "cep": 59194000
-    }
+    "name": "Henrique",
+    "email": "henrique@email.com",
+    "username": "rique",
+    "password": "12345678"
 }
 ```
 
-### Modificando registros
+Modelo de resposta (criado com sucesso):
+```
+{
+  "status": 201,
+  "message": "Created successfully"
+}
+```
+
+### Atualizando usuários
 
 Faça um PUT para o seguinte endpoint:
->[https://manager-persons-api.herokuapp.com/api/v1/persons](https://manager-persons-api.herokuapp.com/api/v1/persons)
+>[https://mr-finance-control-api.herokuapp.com/api/v1/users/2](https://mr-finance-control-api.herokuapp.com/api/v1/users/2)
 
-Modelo de entrada:
+Modelo de body:
 ```
 {
-    "id": 11,
-    "name": "Carlos Antonio",
-    "birthDate": "1980-11-27",
-    "weight": 60.5,
-    "height": 1.82,
-    "address": {
-        "idAddress": 11,
-        "street": "Fazenda Pituba",
-        "district": "Zona Rural",
-        "city": "Baia Formosa",
-        "houseNumber": 10,
-        "cep": 59194000
-    }
+    "name": "Henrique Goes",
+    "email": "henrique_goes@email.com",
+    "username": "rique_goes",
+    "password": "87654321"
 }
 ```
 
-*No caso de uma atualização é necessário passar o ID do usuário que vai ser modificado e o respectivo o ID do endereço. Também é necessário passar os dados que não serão alterados.
+Modelo de resposta (atualizado com sucesso):
+```
+{
+  "status": 202,
+  "message": "Updated successfully"
+}
+```
 
-### Apagando registros
+*No caso de uma atualização é necessário passar o ID do usuário que vai ser modificado pela URL. Também é necessário repetir os dados que não serão alterados.
+
+### Apagando usuários
 
 Faça um DELETE para o endpoint:
->https://manager-persons-api.herokuapp.com/api/v1/persons/{ID}
+>https://mr-finance-control-api.herokuapp.com/api/v1/users/{ID}
+
+Modelo de resposta (deletado com sucesso):
+```
+{
+  "status": 202,
+  "message": "Deleted successfully"
+}
+```
 
 *No lugar de {ID} insira o ID do usuário que deseja apagar.
 
-## Extras
+### Adicionando transações
 
-### Banco de dados Postgresql criado via docker
+Faça um POST para o seguinte endpoint:
+>[https://mr-finance-control-api.herokuapp.com/api/v1/transactions](https://mr-finance-control-api.herokuapp.com/api/v1/transactions)
 
-Estrutura do banco:
-
+Modelo de body:
 ```
---
--- Estrutura da tabela "person"
---
-
-DROP TABLE IF EXISTS "person" CASCADE;
-
-CREATE TABLE person (
-  id bigserial primary key,
-  name varchar(80),
-  birth_date date,
-  weight real,
-  height real,
-  address integer
-);
-
---
--- Inserindo dados na tabela "person"
---
-
-INSERT INTO "person" (id, name, birth_date, weight, height, address) VALUES
-(1, 'João', '1985-08-06', 67.6, 1.75, 1),
-(2, 'Maria', '1964-12-25', 55.9, 1.66, 2),
-(3, 'Paula', '1988-09-13', 68.9, 1.65, 3),
-(4, 'Rosa', '1997-12-27', 57.6, 1.85, 4),
-(5, 'Talita', '1974-10-18', 55.1, 1.39, 5),
-(6, 'Joana', '2000-11-27', 52.9, 1.88, 6),
-(7, 'Carla', '1998-03-06', 65.4, 1.60, 7),
-(8, 'Pedro', '1999-04-08', 70.5, 1.62, 8),
-(9, 'Lucas', '1996-12-01', 80.9, 1.73, 9),
-(10, 'Marciel', '1977-12-30', 77.7, 1.40, 10);
-
-ALTER SEQUENCE person_id_seq
-  RESTART 11;
+{
+    "user_id": 2,
+    "type": "compra",
+    "product": "Pastel",
+    "value": 2.50
+}
 ```
 
+Modelo de resposta (criado com sucesso):
 ```
---
--- Estrutura da tabela "address"
---
-
-DROP TABLE IF EXISTS "address" CASCADE;
-
-CREATE TABLE address (
-  id_address bigserial primary key,
-  street varchar(40),
-  district varchar(40),
-  city varchar(40),
-  house_number integer,
-  cep bigint
-);
-
---
--- Inserindo dados na tabela "address"
---
-
-INSERT INTO "address" (id_address, street, district, city, house_number, cep) VALUES
-(1, 'Avenida Nilo Peçanha', 'Praia do Meio', 'Natal', 59, 59010056),
-(2, 'Rua Monte Alegre', 'Praia do Meio', 'Natal', 28, 59010100),
-(3, 'Travessa Doutor Manoel Dantas', 'Petrópolis', 'Natal', 17, 59012275),
-(4, 'Rua Frei Miguelinho', 'Ribeira', 'Natal', 115, 59012180),
-(5, 'Rua Cláudio Machado', 'Petrópolis', 'Natal', 265, 59012310),
-(6, '4ª Travessa João XXIII', 'Mãe Luiza', 'Natal', 854, 59014008),
-(7, 'Rua Desembargador Lemos Filho', 'Rocas', 'Natal', 345, 59010260),
-(8, 'Travessa Jordanês', 'Rocas', 'Natal', 941, 59010385),
-(9, 'Travessa São Jorge",', 'Rocas', 'Natal', 22, 59010665),
-(10, 'Rua São José', 'Lagoa Nova', 'Natal', 2000, 59063150);
-
-ALTER SEQUENCE address_id_address_seq
-  RESTART 11;
+{
+  "status": 201,
+  "message": "Created successfully"
+}
 ```
 
-### JDK Version
-Open JDK 8
+### Atualizando transações
+
+Faça um PUT para o seguinte endpoint:
+>[https://mr-finance-control-api.herokuapp.com/api/v1/transactions/2](https://mr-finance-control-api.herokuapp.com/api/v1/transactions/2)
+
+Modelo de body:
+```
+{
+    "user_id": 2,
+    "type": "venda",
+    "product": "Pastel",
+    "value": 3.25
+}
+```
+
+Modelo de resposta (atualizado com sucesso):
+```
+{
+  "status": 202,
+  "message": "Updated successfully"
+}
+```
+
+*No caso de uma atualização é necessário passar o ID da transação que vai ser modificada pela URL. Também é necessário repetir os dados que não serão alterados.
+
+### Apagando transações
+
+Faça um DELETE para o endpoint:
+>https://mr-finance-control-api.herokuapp.com/api/v1/transactions/{ID}
+
+Modelo de resposta (deletado com sucesso):
+```
+{
+  "status": 202,
+  "message": "Deleted successfully"
+}
+```
+
+*No lugar de {ID} insira o ID da transação que deseja apagar.
